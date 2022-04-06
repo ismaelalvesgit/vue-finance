@@ -13,14 +13,11 @@ export default {
   },
   sockets: {
     connect: function () {
-      console.log('socket connected')
       this.$socket.emit('/investment', 'new client connetion')
     }
   },
   mounted () {
-    console.log(process.env)
     this.sockets.subscribe("/update-investment", function(data) {
-  
       this.$store.commit('update', data[0].name)
     })
   },
