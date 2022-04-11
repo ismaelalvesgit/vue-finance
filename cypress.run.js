@@ -8,9 +8,15 @@ const { result } = concurrently([
     killOthers: ['failure', 'success'],
 })
 
-
 setImmediate(async()=>{
     try {
         await result
-    } catch (error) {}
+    } catch (error) {
+        error.forEach(err => {
+            const { command, exitCode } = err;
+            if(command.command === 'npx cypress run' && Number(exitCode) === 1){
+                process.exit(1)
+            } 
+        });
+    }
 })
